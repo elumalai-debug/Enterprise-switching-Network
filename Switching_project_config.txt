@@ -1,0 +1,313 @@
+Switching_project
+--------------------
+
+core_sw_trunk_config
+---------------------
+enable
+config t
+ho core_sw
+int ra fa 0/5 -12
+switchport trunk encapsulation dot1q
+switchport mode trunk
+ex
+
+vtp config
+-------------
+vtp mode server
+vtp version 2
+vtp domain ccna.com
+vtp password ccna123
+
+vlan config
+-------------
+vlan 10
+name HR
+ex
+vlan 20
+name SALES
+ex
+vlan 30
+name dev
+ex
+vlan 40
+name network
+ex
+vlan 50
+name tat
+ex
+vlan 60
+name account
+ex
+
+A_block_sw
+-----------
+enable
+config t
+ho A_block_sw
+int ra fa 0/1-4
+sw mode trunk
+ex
+
+vtp config
+-------------
+vtp mode client
+vtp  version 2
+vtp domain ccna.com
+vtp password ccna123
+ex
+
+vlan_access
+-------------
+config t
+int fa 0/5
+sw acc vlan 10
+ex
+int fa 0/6
+sw acc vlan 20
+ex
+int fa 0/7
+sw access vlan 30
+ex
+
+B_block_sw
+------------
+en
+config t
+ho B_block_sw
+int ra fa 0/1 -4
+sw mode trunk
+ex
+
+vtp config
+------------
+vtp mode client
+vtp version 2
+vtp domain ccna.com
+vtp password ccna123
+ex
+
+vlan_access
+--------------
+
+config t
+int fa 0/5
+sw acc vlan 40
+ex
+int fa 0/6
+sw acc vlan 50
+ex
+int fa 0/7
+sw access vlan 60
+ex
+
+
+DC_sw/etherchannel
+----------------------
+LACP
+-------
+
+enable
+config t
+int ra fa 0/1 -4
+channel-group 1 mode passive
+exit
+
+core_sw_lacp
+---------------
+config t
+int ra fa 0/1 -4
+channel-group 1 mode active
+ex
+
+core_sw_PAGP
+---------------
+core_sw-A_blk
+------------
+config t
+int ra fa 0/5 -8
+channel-group 2 mode desirable
+ex
+
+core_sw-B_blk
+------------
+config t
+int ra fa 0/9 -12
+channel-group 3 mode desirable
+ex
+
+A_block_sw
+---------------
+pagp
+-------
+config t
+int ra fa 0/1 -4
+channel-group 2 mode auto
+ex
+
+B_block_sw
+------------
+pagp
+--------
+config t
+int ra fa 0/1 -4
+channel-group 3 mode auto
+ex
+
+
+core_sw_L3_config
+------------------
+config t
+interface port-channel 1
+no switchport
+ex
+
+int fa 0/13
+no switchport
+ip add 192.168.2.1 255.255.255.0
+ex
+
+ip_assign_to_channel
+----------------------
+interface port-channel 1
+ip add 192.168.1.1 255.255.255.0
+no sh
+ex
+
+core_sw_Ivlan_svi
+------------------
+int vlan 10
+ip add 10.0.0.1 255.0.0.0
+ex
+int vlan 20
+ip add 20.0.0.1 255.0.0.0
+ex
+int vlan 30
+ip add 30.0.0.1 255.0.0.0
+ex
+int vlan 40
+ip add 40.0.0.1 255.0.0.0
+ex
+int vlan 50
+ip add 50.0.0.1 255.0.0.0
+ex
+int vlan 60
+ip add 60.0.0.1 255.0.0.0
+ex
+ 
+enable_routing_core-sw
+-----------------------
+config t
+ip routing
+ex
+
+default_static_route
+---------------------
+ip route 0.0.0.0 0.0.0.0 192.168.2.2
+
+relay_agent_core_sw
+-------------------
+int vlan 10
+ip helper-address 192.168.1.40
+ex
+int vlan 20
+ip helper-address 192.168.1.40
+ex
+int vlan 30
+ip helper-address 192.168.1.40
+ex
+int vlan 40
+ip helper-address 192.168.1.40
+ex
+int vlan 50
+ip helper-address 192.168.1.40
+ex
+int vlan 60
+ip helper-address 192.168.1.40
+ex
+
+C_Block_router
+---------------
+
+en
+config t
+ho C_block_router
+int fa 0/0
+ip add 192.168.2.2 255.255.255.0
+no sh
+ex
+
+int fa 0/1.1 
+encapsulation dot1q 70
+ip add 70.0.0.1 255.0.0.0
+no sh
+ex
+
+int fa 0/1.2
+encapsulation dot1q 80
+ip add 80.0.0.1 255.0.0.0
+no sh
+ex
+
+int fa 0/1.3 
+encapsulation dot1q 90
+ip add 90.0.0.1 255.0.0.0
+no sh
+ex
+
+int fa 0/1
+no sh
+ex
+
+C_blk_relay_config
+------------------
+int fa 0/1.1
+ip helper-address 192.168.1.40
+ex
+int fa 0/1.2
+ip helper-address 192.168.1.40
+ex
+int fa 0/1.3
+ip helper-address 192.168.1.40
+ex
+
+static_route_c_blk
+-------------------
+
+ip route 0.0.0.0 0.0.0.0 192.168.2.1
+
+
+C_blk_SW
+------------
+en
+config t
+ho C_block_sw
+int fa 0/4
+sw mo trunk
+ex
+
+vlan 70 
+name q1
+ex
+
+vlan 80 
+name support
+exit
+
+vlan 90
+name audit
+exit
+
+int fa 0/1
+sw acc vlan 70
+ex
+
+int fa 0/2
+sw acc vlan 80
+ex
+
+int fa 0/3
+sw acc vlan 90
+ex
+
+
+
