@@ -126,45 +126,13 @@ Configured on the Layer 3 Switch to enable communication between VLANs.
 
 ## 📷 Project Screenshots
 
-### Network Topology
-
-![Topology](screenshots/network-topology.png)
-
-### DHCP Configuration
-
-![DHCP](screenshots/dhcp.png)
-
-### DNS Server
-
-![DNS](screenshots/dns.png)
-
-### HTTP Server
-
-![HTTP](screenshots/http.png)
-
-### Web Access
-
-![Web](screenshots/web-access.png)
+ Network Topology
+ DHCP Configuration
+ DNS Server
+ HTTP Server
+ Web Access
 
 ---
-
-## 📁 Repository Structure
-
-```
-Enterprise-Switching-Network/
-│
-├── README.md
-├── Enterprise_Switching_Network.pkt
-├── screenshots/
-│   ├── network-topology.png
-│   ├── dhcp.png
-│   ├── dns.png
-│   ├── http.png
-│   └── web-access.png
-```
-
----
-
 ## 🎯 Learning Outcomes
 
 Through this project I gained hands-on experience in:
