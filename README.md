@@ -127,9 +127,13 @@ Configured on the Layer 3 Switch to enable communication between VLANs.
 ## 📷 Project Screenshots
 
  Network Topology
+ 
  DHCP Configuration
+ 
  DNS Server
+
  HTTP Server
+ 
  Web Access
 
 ---
